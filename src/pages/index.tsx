@@ -1,11 +1,10 @@
-import type { NextPage } from 'next';
-
+import type { NextPage } from 'next'
 const Home: NextPage = () => {
   return (
-    <div className="container mx-auto mt-8 p-6 shadow text-2xl">
+    <div className="container mt-8 mx-auto p-6 text-2xl shadow">
       Hello World
     </div>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home
