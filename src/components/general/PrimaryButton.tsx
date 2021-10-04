@@ -8,13 +8,13 @@ export const PrimaryButton: React.FC<Props> = (props) => {
 
   if (isLarge) {
     return (
-      <button className="px-8 py-3 text-white text-xl bg-pink-400 hover:bg-pink-500 rounded-lg">
+      <a className="px-8 py-3 text-white text-xl bg-pink-400 hover:bg-pink-500 rounded-lg cursor-pointer">
         {children}
-      </button>
+      </a>
     )
   }
   return (
-    <a className="px-6 py-2 text-white text-sm bg-pink-400 hover:bg-pink-500 rounded-lg">
+    <a className="px-6 py-2 text-white text-sm bg-pink-400 hover:bg-pink-500 rounded-lg cursor-pointer">
       {children}
     </a>
   )
