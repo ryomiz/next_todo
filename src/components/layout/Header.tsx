@@ -1,4 +1,4 @@
-import { PrimaryButton } from 'src/components/general/PrimaryButton'
+import { PrimaryButton } from 'src/components/general/button/PrimaryButton'
 
 const navMenu = ['タスク一覧', '完了したタスク']
 const buttonMenu = ['ログイン', '会員登録']

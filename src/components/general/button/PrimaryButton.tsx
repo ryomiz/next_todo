@@ -3,14 +3,14 @@ type Props = {
   isLarge?: boolean
 }
 
-export const PrimaryButton: React.FC<Props> = (props) => {
+export const PrimaryButton: React.VFC<Props> = (props) => {
   const { children, isLarge = false } = props
 
   if (isLarge) {
     return (
-      <a className="px-8 py-3 text-white text-xl bg-pink-400 hover:bg-pink-500 rounded-lg cursor-pointer">
+      <button className="px-8 py-3 text-white text-xl bg-pink-400 hover:bg-pink-500 rounded-lg cursor-pointer">
         {children}
-      </a>
+      </button>
     )
   }
   return (

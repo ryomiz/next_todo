@@ -12,6 +12,7 @@
   ],
   "plugins": ["@typescript-eslint", "import", "unused-imports"],
   "rules": {
+    "import/no-named-as-default": "off",
     "unused-imports/no-unused-imports": "error",
     "import/order": [
       "error",

@@ -10,7 +10,7 @@ export const Layout: React.FC<Props> = (props) => {
   return (
     <>
       <Header />
-      {children}
+      <div className="mx-auto max-w-screen-lg">{children}</div>
       <Footer />
     </>
   )
