@@ -4,7 +4,7 @@ import { TaskForm } from 'src/components/TaskForm'
 import { TaskList } from 'src/components/TaskList'
 import { Layout } from 'src/components/layout/Layout'
 
-const TodoPage: NextPage = () => {
+const TaskPage: NextPage = () => {
   return (
     <Layout>
       <div className="flex justify-between mb-12">
@@ -15,4 +15,4 @@ const TodoPage: NextPage = () => {
   )
 }
 
-export default TodoPage
+export default TaskPage

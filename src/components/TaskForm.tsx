@@ -2,13 +2,13 @@ import { useState } from 'react'
 import Calendar from 'react-calendar'
 import { useForm } from 'react-hook-form'
 
-import type { Todo } from 'src/types/index'
+import type { Task } from 'src/types/index'
 
 export const TaskForm: React.VFC = () => {
   const [value, onChange] = useState(new Date())
-  const { register, handleSubmit } = useForm<Todo>()
+  const { register, handleSubmit } = useForm<Task>()
 
-  const onSubmit = (data: Todo) => console.log(data)
+  const onSubmit = (data: Task) => console.log(data)
   return (
     <div className="p-4 w-5/12 text-center">
       <h1 className="mb-2 text-3xl">タスクの作成</h1>
