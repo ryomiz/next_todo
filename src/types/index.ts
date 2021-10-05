@@ -1,3 +1,4 @@
-export type Todo = {
+export type Task = {
+  duration: string
   todo: string
 }
