@@ -1,6 +1,10 @@
 import { useRecoilState } from 'recoil'
 
-import { completedTaskState, uncompletedTaskState } from 'src/stores'
+import {
+  completedTaskState,
+  discardedTaskState,
+  uncompletedTaskState,
+} from 'src/stores'
 import { Task } from 'src/types'
 
 type ReturnValue = {
@@ -14,6 +18,7 @@ type ReturnValue = {
 export const useTask = (): ReturnValue => {
   const [uncompleted, setUncompleted] = useRecoilState(uncompletedTaskState)
   const [completed, setCompleted] = useRecoilState(completedTaskState)
+  const [discarded, setDiscarded] = useRecoilState(discardedTaskState)
 
   const completeTask = (task: Task) => {
     const newUncompleted = [...uncompleted].filter(
@@ -33,7 +38,9 @@ export const useTask = (): ReturnValue => {
 
   const deleteTask = (task: Task) => {
     const newCompleted = [...completed].filter((tsk) => tsk.todo !== task.todo)
+    const newDiscarded = [...discarded, task]
     setCompleted(newCompleted)
+    setDiscarded(newDiscarded)
   }
 
   return { completeTask, revertTask, deleteTask, uncompleted, completed }
