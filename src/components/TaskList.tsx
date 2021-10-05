@@ -1,12 +1,9 @@
-import { useRecoilValue } from 'recoil'
-
 import { CompletedTask } from 'src/components/general/task/CompletedTask'
 import { UncompletedTask } from 'src/components/general/task/UncompletedTask'
-import { completedTaskState, uncompletedTaskState } from 'src/stores'
+import { useSetTask } from 'src/hooks/useSetTask'
 
 export const TaskList: React.VFC = () => {
-  const uncompleted = useRecoilValue(uncompletedTaskState)
-  const completed = useRecoilValue(completedTaskState)
+  const { uncompleted, completed } = useSetTask()
   return (
     <div className="flex flex-col gap-6 pt-20 w-6/12">
       <div className="mb-8 rounded-lg">
