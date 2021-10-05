@@ -10,7 +10,7 @@ export const TaskList: React.VFC = () => {
         <h2 className="mb-4 text-blue-600 text-xl">未完了のタスク</h2>
         <div className="flex flex-col gap-4">
           {uncompleted.map((task) => (
-            <UncompletedTask key={task.todo} task={task} />
+            <UncompletedTask key={task.id} task={task} />
           ))}
         </div>
       </div>
@@ -18,7 +18,7 @@ export const TaskList: React.VFC = () => {
         <h2 className="mb-4 text-red-600 text-xl">完了したタスク</h2>
         <div className="flex flex-col gap-4">
           {completed.map((task) => (
-            <CompletedTask key={task.todo} task={task} />
+            <CompletedTask key={task.id} task={task} />
           ))}
         </div>
       </div>

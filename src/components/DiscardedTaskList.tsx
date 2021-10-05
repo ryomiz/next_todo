@@ -10,8 +10,8 @@ export const DiscardedTaskList: React.VFC = () => {
         削除されたタスク
       </h2>
       <div className="flex flex-col gap-4 mx-auto w-6/12">
-        {discarded.map((task, idx: number) => (
-          <DiscardedTask key={idx} task={task} />
+        {discarded.map((task) => (
+          <DiscardedTask key={task.id} task={task} />
         ))}
       </div>
     </div>
