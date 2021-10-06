@@ -22,11 +22,13 @@ export const useTask = (): ReturnValue => {
     setUncompleted,
     setCompleted,
     setDiscarded,
+    setData,
   } = useSetTask()
 
   const createTask = useCallback(async (task: PostTask) => {
     try {
       await axiosInstance.post('/', task)
+      setData()
       console.log('タスクの作成成功！')
     } catch (err) {
       console.error(err, 'タスクの送信に失敗しました')
