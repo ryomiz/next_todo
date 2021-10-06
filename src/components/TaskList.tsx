@@ -1,9 +1,14 @@
+import { useEffect } from 'react'
+
 import { CompletedTask } from 'src/components/general/task/CompletedTask'
 import { UncompletedTask } from 'src/components/general/task/UncompletedTask'
 import { useSetTask } from 'src/hooks/useSetTask'
 
 export const TaskList: React.VFC = () => {
-  const { uncompleted, completed } = useSetTask()
+  const { uncompleted, completed, setData } = useSetTask()
+  useEffect(() => {
+    setData()
+  }, [])
   return (
     <div className="flex flex-col gap-6 pt-20 w-6/12">
       <div className="mb-8 rounded-lg">

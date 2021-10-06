@@ -1,5 +1,4 @@
-import { useEffect } from 'react'
-import { useRecoilState } from 'recoil'
+import { SetterOrUpdater, useRecoilState } from 'recoil'
 
 import type { Task } from 'src/types'
 
@@ -14,14 +13,18 @@ type ReturnValue = {
   uncompleted: Array<Task>
   completed: Array<Task>
   discarded: Array<Task>
+  setUncompleted: SetterOrUpdater<Task[]>
+  setCompleted: SetterOrUpdater<Task[]>
+  setDiscarded: SetterOrUpdater<Task[]>
+  setData(): Promise<void>
 }
 
 export const useSetTask = (): ReturnValue => {
   const [uncompleted, setUncompleted] = useRecoilState(uncompletedTaskState)
   const [completed, setCompleted] = useRecoilState(completedTaskState)
   const [discarded, setDiscarded] = useRecoilState(discardedTaskState)
-  useEffect(() => {
-    const setData = async () => {
+  const setData = async () => {
+    try {
       const data = await fetcher()
       // 未完了のタスクの設定
       const newUncompleted = data.filter(
@@ -38,9 +41,21 @@ export const useSetTask = (): ReturnValue => {
         (item: Task) => item.state === 'discarded'
       )
       setDiscarded(newDiscarded)
+    } catch (err) {
+      console.error(err, 'データの取得に失敗しました')
+      setUncompleted([])
+      setCompleted([])
+      setDiscarded([])
     }
-    setData()
-  }, [setCompleted, setDiscarded, setUncompleted])
+  }
 
-  return { uncompleted, completed, discarded }
+  return {
+    uncompleted,
+    completed,
+    discarded,
+    setUncompleted,
+    setCompleted,
+    setDiscarded,
+    setData,
+  }
 }
