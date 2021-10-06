@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 
 import { useSetTask } from './useSetTask'
+import { useToast } from './useToast'
 
 import { axiosInstance } from 'src/lib/axiosInstance'
 import { PostTask, Task } from 'src/types'
@@ -25,15 +26,20 @@ export const useTask = (): ReturnValue => {
     setData,
   } = useSetTask()
 
-  const createTask = useCallback(async (task: PostTask) => {
-    try {
-      await axiosInstance.post('/', task)
-      setData()
-      console.log('タスクの作成成功！')
-    } catch (err) {
-      console.error(err, 'タスクの送信に失敗しました')
-    }
-  }, [])
+  const { successToast, errorToast } = useToast()
+
+  const createTask = useCallback(
+    async (task: PostTask) => {
+      try {
+        await axiosInstance.post('/', task)
+        successToast('タスクの作成に成功しました🚀')
+        setData()
+      } catch (err) {
+        errorToast('タスクの作成に失敗しました🥺')
+      }
+    },
+    [errorToast, setData, successToast]
+  )
 
   const completeTask = useCallback(
     async (task: Task) => {
@@ -50,7 +56,7 @@ export const useTask = (): ReturnValue => {
         console.error(err)
       }
     },
-    [uncompleted, completed, setUncompleted, setCompleted]
+    [completed, setCompleted, setUncompleted, uncompleted]
   )
   const revertTask = useCallback(
     async (task: Task) => {
@@ -68,7 +74,7 @@ export const useTask = (): ReturnValue => {
         console.error(err)
       }
     },
-    [uncompleted, completed, setUncompleted, setCompleted]
+    [completed, setCompleted, setUncompleted, uncompleted]
   )
 
   const deleteTask = useCallback(

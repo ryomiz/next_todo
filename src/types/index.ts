@@ -10,3 +10,5 @@ export type Task = {
   todo: string
   state: 'uncompleted' | 'completed' | 'discarded'
 }
+
+export type Duration = Date | [Date, Date]
