@@ -77,15 +77,13 @@ export const useTask = (): ReturnValue => {
     [completed, setCompleted, setUncompleted, uncompleted]
   )
 
-  const deleteTask = useCallback(
+  const discardTask = useCallback(
     async (task: Task) => {
       const targetId = task.id
       try {
         await axiosInstance.patch(`discard/${targetId}`)
 
-        const newCompleted = [...completed].filter(
-          (tsk) => tsk.todo !== task.todo
-        )
+        const newCompleted = [...completed].filter((tsk) => tsk.id !== targetId)
         const newDiscarded = [...discarded, task]
         setCompleted(newCompleted)
         setDiscarded(newDiscarded)
