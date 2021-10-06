@@ -12,6 +12,7 @@ type ReturnValue = {
   createTask: (task: PostTask) => void
   completeTask: (task: Task) => void
   revertTask: (task: Task) => void
+  discardTask: (task: Task) => void
   deleteTask: (task: Task) => void
 }
 
@@ -47,7 +48,7 @@ export const useTask = (): ReturnValue => {
       try {
         await axiosInstance.patch(`complete/${targetId}`)
         const newUncompleted = [...uncompleted].filter(
-          (tsk) => tsk.todo !== task.todo
+          (tsk) => tsk.id !== targetId
         )
         const newCompleted = [...completed, task]
         setUncompleted(newUncompleted)
@@ -65,9 +66,7 @@ export const useTask = (): ReturnValue => {
         await axiosInstance.patch(`revert/${targetId}`)
 
         const newUncompleted = [...uncompleted, task]
-        const newCompleted = [...completed].filter(
-          (tsk) => tsk.todo !== task.todo
-        )
+        const newCompleted = [...completed].filter((tsk) => tsk.id !== targetId)
         setUncompleted(newUncompleted)
         setCompleted(newCompleted)
       } catch (err) {
@@ -94,10 +93,25 @@ export const useTask = (): ReturnValue => {
     [completed, discarded, setCompleted, setDiscarded]
   )
 
+  const deleteTask = useCallback(
+    async (task: Task) => {
+      const targetId = task.id
+      try {
+        await axiosInstance.delete(`/${targetId}`)
+        const newDiscarded = [...discarded].filter((tsk) => tsk.id !== targetId)
+        setDiscarded(newDiscarded)
+      } catch (err) {
+        console.error(err)
+      }
+    },
+    [discarded, setDiscarded]
+  )
+
   return {
     createTask,
     completeTask,
     revertTask,
+    discardTask,
     deleteTask,
     uncompleted,
     completed,
