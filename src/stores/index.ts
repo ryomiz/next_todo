@@ -1,9 +1,9 @@
 import { atom } from 'recoil'
 
-import type { Task } from 'src/types'
+import type { Task, UserInfo } from 'src/types'
 
-export const jwtToken = atom<string | null>({
-  key: 'jwtToken',
+export const userInfo = atom<UserInfo | null>({
+  key: 'userInfo',
   default: null,
 })
 

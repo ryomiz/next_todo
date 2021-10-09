@@ -1,4 +1,4 @@
-export type LoginForm = {
+export type UserInfo = {
   username: string
   password: string
   access_token?: string
