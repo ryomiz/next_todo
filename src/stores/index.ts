@@ -2,6 +2,11 @@ import { atom } from 'recoil'
 
 import type { Task } from 'src/types'
 
+export const jwtToken = atom<string | null>({
+  key: 'jwtToken',
+  default: null,
+})
+
 export const uncompletedTaskState = atom<Array<Task>>({
   key: 'uncompletedTaskState',
   default: [],
