@@ -1,13 +1,13 @@
 import { memo } from 'react'
 
 import type { UseFormRegister } from 'react-hook-form'
-import type { LoginForm } from 'src/types'
+import type { UserInfo } from 'src/types'
 
 type Props = {
   label: string
   type: 'text' | 'password'
   name: 'username' | 'password'
-  register: UseFormRegister<LoginForm>
+  register: UseFormRegister<UserInfo>
 }
 
 export const Input: React.VFC<Props> = memo((props) => {

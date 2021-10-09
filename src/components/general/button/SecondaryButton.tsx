@@ -7,7 +7,7 @@ type Props = {
 export const SecondaryButton: React.FC<Props> = (props) => {
   const { children, color = 'pink', onClick } = props
   return (
-    <button onClick={onClick} className={`btn-secondary __${color}`}>
+    <button onClick={onClick} className="btn-secondary" data-color={color}>
       {children}
     </button>
   )
