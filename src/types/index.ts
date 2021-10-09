@@ -1,3 +1,9 @@
+export type LoginForm = {
+  username: string
+  password: string
+  access_token?: string
+}
+
 export type PostTask = {
   duration: string
   todo: string

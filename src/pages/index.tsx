@@ -18,7 +18,9 @@ const Home: NextPage = () => {
           <div className="mb-16">
             <Image src={topImg} placeholder="blur" alt="WEB" />
           </div>
-          <PrimaryButton isLarge={true}>GET STARTED</PrimaryButton>
+          <PrimaryButton isLarge={true} href="/login">
+            GETTING STARTED
+          </PrimaryButton>
         </article>
       </main>
     </Layout>

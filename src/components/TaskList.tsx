@@ -14,6 +14,7 @@ export const TaskList: React.VFC = () => {
     setCompleted,
     setData,
   } = useSetTask()
+
   useEffect(() => {
     setData()
   }, [])
