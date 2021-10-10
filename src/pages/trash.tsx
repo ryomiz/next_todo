@@ -1,14 +1,9 @@
 import { NextPage } from 'next'
 
-import { DiscardedTaskList } from 'src/components/DiscardedTaskList'
-import { Layout } from 'src/components/layout/Layout'
+import { AssetsTrash } from 'src/components/pages/trash'
 
 const TrashPage: NextPage = () => {
-  return (
-    <Layout>
-      <DiscardedTaskList />
-    </Layout>
-  )
+  return <AssetsTrash />
 }
 
 export default TrashPage
