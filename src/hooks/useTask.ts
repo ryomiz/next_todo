@@ -1,9 +1,11 @@
 import { useCallback } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import { useSetTask } from './useSetTask'
 import { useToast } from './useToast'
 
 import { axiosInstance } from 'src/lib/axiosInstance'
+import { userInfo } from 'src/stores'
 import { PostTask, Task } from 'src/types'
 
 type ReturnValue = {
@@ -15,6 +17,7 @@ type ReturnValue = {
 }
 
 export const useTask = (): ReturnValue => {
+  const user = useRecoilValue(userInfo)
   const { setData } = useSetTask()
 
   const { successToast, errorToast } = useToast()
@@ -34,6 +37,9 @@ export const useTask = (): ReturnValue => {
 
   const completeTask = useCallback(
     async (task: Task) => {
+      if (!user || user.username !== task.createdBy) {
+        return errorToast('他の人のタスクは編集できません🥺')
+      }
       try {
         const targetId = task.id
         const { duration, todo, createdBy } = task
@@ -45,15 +51,18 @@ export const useTask = (): ReturnValue => {
           todo,
           createdBy,
         })
-        setData()
+        await setData()
       } catch (err) {
         errorToast('エラーが発生しました🥺')
       }
     },
-    [errorToast, setData]
+    [errorToast, setData, user]
   )
   const revertTask = useCallback(
     async (task: Task) => {
+      if (!user || user.username !== task.createdBy) {
+        return errorToast('他の人のタスクは編集できません🥺')
+      }
       try {
         const targetId = task.id
         const { duration, todo, createdBy } = task
@@ -65,16 +74,19 @@ export const useTask = (): ReturnValue => {
           todo,
           createdBy,
         })
-        setData()
+        await setData()
       } catch (err) {
         errorToast('エラーが発生しました🥺')
       }
     },
-    [errorToast, setData]
+    [errorToast, setData, user]
   )
 
   const discardTask = useCallback(
     async (task: Task) => {
+      if (!user || user.username !== task.createdBy) {
+        return errorToast('他の人のタスクは編集できません🥺')
+      }
       try {
         const targetId = task.id
         const { duration, todo, createdBy } = task
@@ -86,16 +98,19 @@ export const useTask = (): ReturnValue => {
           todo,
           createdBy,
         })
-        setData()
+        await setData()
       } catch (err) {
         errorToast('エラーが発生しました🥺')
       }
     },
-    [errorToast, setData]
+    [errorToast, setData, user]
   )
 
   const deleteTask = useCallback(
     async (task: Task) => {
+      if (!user || user.username !== task.createdBy) {
+        return errorToast('他の人のタスクは編集できません🥺')
+      }
       try {
         const targetId = task.id
         await axiosInstance.delete(`/v1/discarded/${targetId}`)
@@ -105,7 +120,7 @@ export const useTask = (): ReturnValue => {
         errorToast('エラーが発生しました🥺')
       }
     },
-    [errorToast, setData, successToast]
+    [errorToast, setData, successToast, user]
   )
 
   return {
