@@ -16,7 +16,6 @@ export const DiscardedTask: React.VFC<Props> = (props) => {
     <div className="relative flex items-center p-4 rounded-lg shadow">
       <span className="w-32">{duration}</span>
       <span className="absolute bottom-1 left-2 ml-2 text-xs">
-        {' '}
         by {task.createdBy}
       </span>
       <p className="order-2 w-48 truncate">{todo}</p>

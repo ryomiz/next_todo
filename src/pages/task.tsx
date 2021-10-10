@@ -1,18 +1,9 @@
 import { NextPage } from 'next'
 
-import { TaskForm } from 'src/components/TaskForm'
-import { TaskList } from 'src/components/TaskList'
-import { Layout } from 'src/components/layout/Layout'
+import { AssetsTask } from 'src/components/pages/task'
 
 const TaskPage: NextPage = () => {
-  return (
-    <Layout>
-      <div className="flex justify-between mb-12">
-        <TaskForm />
-        <TaskList />
-      </div>
-    </Layout>
-  )
+  return <AssetsTask />
 }
 
 export default TaskPage
