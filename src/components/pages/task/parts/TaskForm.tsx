@@ -15,7 +15,6 @@ export const TaskForm: React.VFC = memo(() => {
   const user = useRecoilValue(userInfo)
 
   const today = dayjs().toDate()
-
   const [date, setDate] = useState<Duration>(today)
   const {
     register,
@@ -43,6 +42,8 @@ export const TaskForm: React.VFC = memo(() => {
       createdBy: user.username,
     }
     createTask(task)
+
+    // カレンダー、Todoのフォームをリセットする
     reset()
     setDate(today)
   }

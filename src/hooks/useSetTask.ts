@@ -29,19 +29,22 @@ export const useSetTask = (): ReturnValue => {
       const newUncompleted = await axiosInstance
         .get<Array<Task>>('v1/uncompleted')
         .then((res) => res.data)
-      setUncompleted(newUncompleted)
 
       // completedの設定
       const newCompleted = await axiosInstance
         .get<Array<Task>>('v1/completed')
         .then((res) => res.data)
-      setCompleted(newCompleted)
 
       // discardedの設定
       const newDiscarded = await axiosInstance
         .get<Array<Task>>('v1/discarded')
         .then((res) => res.data)
-      setDiscarded(newDiscarded)
+
+      await Promise.all([
+        setUncompleted(newUncompleted),
+        setCompleted(newCompleted),
+        setDiscarded(newDiscarded),
+      ])
     } catch (err) {
       console.error(err, 'データの取得に失敗しました')
       setUncompleted([])
