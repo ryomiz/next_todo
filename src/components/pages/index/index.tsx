@@ -1,13 +1,11 @@
 import Image from 'next/image'
-import { useRecoilValue } from 'recoil'
+import { memo } from 'react'
 
 import topImg from 'public/top.png'
 import { PrimaryButton } from 'src/components/general/button/PrimaryButton'
 import { Layout } from 'src/components/layout/Layout'
-import { userInfo } from 'src/stores'
 
-export const AssetsIndex: React.VFC = () => {
-  const user = useRecoilValue(userInfo)
+export const AssetsIndex: React.VFC = memo(() => {
   return (
     <Layout>
       <main className="px-2">
@@ -26,4 +24,6 @@ export const AssetsIndex: React.VFC = () => {
       </main>
     </Layout>
   )
-}
+})
+
+AssetsIndex.displayName = 'AssetsIndex'

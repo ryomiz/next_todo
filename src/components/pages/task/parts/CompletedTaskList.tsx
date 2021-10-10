@@ -1,7 +1,9 @@
+import { memo } from 'react'
+
 import { CompletedTask } from 'src/components/general/task/CompletedTask'
 import { useSetTask } from 'src/hooks/useSetTask'
 
-export const CompletedTaskList: React.VFC = () => {
+export const CompletedTaskList: React.VFC = memo(() => {
   const { completed } = useSetTask()
 
   return (
@@ -16,4 +18,6 @@ export const CompletedTaskList: React.VFC = () => {
       </ul>
     </div>
   )
-}
+})
+
+CompletedTaskList.displayName = 'CompletedTaskList'

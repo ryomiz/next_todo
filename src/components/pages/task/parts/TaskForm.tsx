@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import Calendar from 'react-calendar'
 import { useForm } from 'react-hook-form'
 import { useRecoilValue } from 'recoil'
@@ -11,11 +11,10 @@ import { useToast } from 'src/hooks/useToast'
 import { formatDate } from 'src/lib/formatDate'
 import { userInfo } from 'src/stores'
 
-export const TaskForm: React.VFC = () => {
+export const TaskForm: React.VFC = memo(() => {
   const user = useRecoilValue(userInfo)
 
   const today = dayjs().toDate()
-
   const [date, setDate] = useState<Duration>(today)
   const {
     register,
@@ -43,6 +42,8 @@ export const TaskForm: React.VFC = () => {
       createdBy: user.username,
     }
     createTask(task)
+
+    // カレンダー、Todoのフォームをリセットする
     reset()
     setDate(today)
   }
@@ -78,4 +79,6 @@ export const TaskForm: React.VFC = () => {
       </form>
     </div>
   )
-}
+})
+
+TaskForm.displayName = 'TaskForm'

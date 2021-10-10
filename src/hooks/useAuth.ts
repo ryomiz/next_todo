@@ -14,21 +14,22 @@ type ReturnValue = {
 }
 
 export const useAuth = (): ReturnValue => {
+  const [userInfo, setUserInfo] = useRecoilState(state)
+
   const router = useRouter()
   const { successToast, errorToast } = useToast()
 
-  const [userInfo, setUserInfo] = useRecoilState(state)
   const login = useCallback(
     async (user: UserInfo) => {
       try {
         const res = await axiosInstance.post('auth/login', user)
         const token = res.data.access_token
         if (token) {
-          successToast('ログインしました！🚀')
           setUserInfo({
             ...user,
             access_token: token,
           })
+          successToast('ログインしました！🚀')
           router.push('/task')
         }
       } catch (err) {

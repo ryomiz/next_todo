@@ -1,11 +1,13 @@
+import { memo } from 'react'
 import { useForm } from 'react-hook-form'
+
+import { LoginInput } from './LoginInput'
 
 import type { UserInfo } from 'src/types'
 
-import { Input } from 'src/components/general/input/Input'
 import { useAuth } from 'src/hooks/useAuth'
 
-export const LoginForm: React.VFC = () => {
+export const LoginForm: React.VFC = memo(() => {
   const { register, handleSubmit } = useForm<UserInfo>()
   const onSubmit = async (data: UserInfo) => login(data)
 
@@ -15,13 +17,13 @@ export const LoginForm: React.VFC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-4 items-center justify-center py-20"
     >
-      <Input
+      <LoginInput
         label="ユーザー名"
         type="text"
         name="username"
         register={register}
       />
-      <Input
+      <LoginInput
         label="パスワード"
         type="password"
         name="password"
@@ -31,4 +33,6 @@ export const LoginForm: React.VFC = () => {
       <input type="submit" value="ログイン" className="btn-secondary mt-2" />
     </form>
   )
-}
+})
+
+LoginForm.displayName = 'LoginForm'

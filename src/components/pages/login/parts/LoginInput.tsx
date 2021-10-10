@@ -10,7 +10,7 @@ type Props = {
   register: UseFormRegister<UserInfo>
 }
 
-export const Input: React.VFC<Props> = memo((props) => {
+export const LoginInput: React.VFC<Props> = memo((props) => {
   const { label, type, name, register } = props
   return (
     <div className="flex flex-col gap-1">
@@ -24,4 +24,4 @@ export const Input: React.VFC<Props> = memo((props) => {
   )
 })
 
-Input.displayName = 'Input'
+LoginInput.displayName = 'LoginInput'
