@@ -7,8 +7,6 @@ import { axiosInstance } from 'src/lib/axiosInstance'
 import { PostTask, Task } from 'src/types'
 
 type ReturnValue = {
-  uncompleted: Array<Task>
-  completed: Array<Task>
   createTask: (task: PostTask) => void
   completeTask: (task: Task) => void
   revertTask: (task: Task) => void
@@ -49,10 +47,10 @@ export const useTask = (): ReturnValue => {
         })
         await setData()
       } catch (err) {
-        console.error(err)
+        errorToast('エラーが発生しました🥺')
       }
     },
-    [setData]
+    [errorToast, setData]
   )
   const revertTask = useCallback(
     async (task: Task) => {
@@ -69,10 +67,10 @@ export const useTask = (): ReturnValue => {
         })
         await setData()
       } catch (err) {
-        console.error(err)
+        errorToast('エラーが発生しました🥺')
       }
     },
-    [setData]
+    [errorToast, setData]
   )
 
   const discardTask = useCallback(
@@ -90,10 +88,10 @@ export const useTask = (): ReturnValue => {
         })
         await setData()
       } catch (err) {
-        console.error(err)
+        errorToast('エラーが発生しました🥺')
       }
     },
-    [setData]
+    [errorToast, setData]
   )
 
   const deleteTask = useCallback(
@@ -101,12 +99,13 @@ export const useTask = (): ReturnValue => {
       try {
         const targetId = task.id
         await axiosInstance.delete(`/v1/discarded/${targetId}`)
+        successToast('削除に成功しました！🗑')
         await setData()
       } catch (err) {
-        console.error(err)
+        errorToast('エラーが発生しました🥺')
       }
     },
-    [setData]
+    [errorToast, setData, successToast]
   )
 
   return {
@@ -115,7 +114,5 @@ export const useTask = (): ReturnValue => {
     revertTask,
     discardTask,
     deleteTask,
-    uncompleted,
-    completed,
   }
 }
