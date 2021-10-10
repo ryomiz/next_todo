@@ -4,7 +4,7 @@ export const MyToaster: React.VFC = () => {
   return (
     <Toaster
       toastOptions={{
-        duration: 3000,
+        duration: 1500,
       }}
     />
   )
