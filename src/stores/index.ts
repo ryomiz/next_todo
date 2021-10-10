@@ -4,10 +4,7 @@ import type { Task, UserInfo } from 'src/types'
 
 export const userInfo = atom<UserInfo | null>({
   key: 'userInfo',
-  default: {
-    username: 'ryosuke',
-    password: 'test',
-  },
+  default: null,
 })
 
 export const uncompletedTaskState = atom<Array<Task>>({

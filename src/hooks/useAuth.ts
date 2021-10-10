@@ -22,7 +22,7 @@ export const useAuth = (): ReturnValue => {
   const login = useCallback(
     async (user: UserInfo) => {
       try {
-        const res = await axiosInstance.post('auth/login', user)
+        const res = await axiosInstance().post('auth/login', user)
         const token = res.data.access_token
         if (token) {
           setUserInfo({
@@ -47,7 +47,7 @@ export const useAuth = (): ReturnValue => {
     } else {
       errorToast('ログアウトできませんでした🥺')
     }
-  }, [])
+  }, [errorToast, router, setUserInfo, successToast, userInfo])
 
   return { login, logout }
 }

@@ -1,10 +1,12 @@
 import { useCallback } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import { useSetTask } from './useSetTask'
 import { useToast } from './useToast'
 import { useValidation } from './useValidation'
 
 import { axiosInstance } from 'src/lib/axiosInstance'
+import { userInfo } from 'src/stores'
 import { PostTask, Task } from 'src/types'
 
 type ReturnValue = {
@@ -18,19 +20,21 @@ type ReturnValue = {
 export const useTask = (): ReturnValue => {
   const { setData } = useSetTask()
 
+  const user = useRecoilValue(userInfo)
   const { checkUser } = useValidation()
   const { successToast, errorToast } = useToast()
+
   const createTask = useCallback(
     async (task: PostTask) => {
       try {
-        await axiosInstance.post('/v1/uncompleted', task)
+        await axiosInstance(user?.access_token).post('/v1/uncompleted', task)
         successToast('タスクの作成に成功しました🚀')
         setData()
       } catch (err) {
         errorToast('タスクの作成に失敗しました🥺')
       }
     },
-    [errorToast, setData, successToast]
+    [errorToast, setData, successToast, user?.access_token]
   )
 
   const completeTask = useCallback(
@@ -41,9 +45,11 @@ export const useTask = (): ReturnValue => {
           const targetId = task.id
           const { duration, todo, createdBy } = task
           // uncompletedから削除
-          await axiosInstance.delete(`/v1/uncompleted/${targetId}`)
+          await axiosInstance(user?.access_token).delete(
+            `/v1/uncompleted/${targetId}`
+          )
           // completedに追加
-          await axiosInstance.post('/v1/completed', {
+          await axiosInstance(user?.access_token).post('/v1/completed', {
             duration,
             todo,
             createdBy,
@@ -53,7 +59,7 @@ export const useTask = (): ReturnValue => {
           errorToast('エラーが発生しました🥺')
         }
     },
-    [checkUser, errorToast, setData]
+    [checkUser, errorToast, setData, user?.access_token]
   )
   const revertTask = useCallback(
     async (task: Task) => {
@@ -63,9 +69,11 @@ export const useTask = (): ReturnValue => {
           const targetId = task.id
           const { duration, todo, createdBy } = task
           // completedから削除
-          await axiosInstance.delete(`/v1/completed/${targetId}`)
+          await axiosInstance(user?.access_token).delete(
+            `/v1/completed/${targetId}`
+          )
           // uncompletedに追加
-          await axiosInstance.post('/v1/uncompleted', {
+          await axiosInstance(user?.access_token).post('/v1/uncompleted', {
             duration,
             todo,
             createdBy,
@@ -75,7 +83,7 @@ export const useTask = (): ReturnValue => {
           errorToast('エラーが発生しました🥺')
         }
     },
-    [checkUser, errorToast, setData]
+    [checkUser, errorToast, setData, user?.access_token]
   )
 
   const discardTask = useCallback(
@@ -86,9 +94,11 @@ export const useTask = (): ReturnValue => {
           const targetId = task.id
           const { duration, todo, createdBy } = task
           // completedから削除
-          await axiosInstance.delete(`/v1/completed/${targetId}`)
+          await axiosInstance(user?.access_token).delete(
+            `/v1/completed/${targetId}`
+          )
           // discardedに追加
-          await axiosInstance.post('/v1/discarded', {
+          await axiosInstance(user?.access_token).post('/v1/discarded', {
             duration,
             todo,
             createdBy,
@@ -98,7 +108,7 @@ export const useTask = (): ReturnValue => {
           errorToast('エラーが発生しました🥺')
         }
     },
-    [checkUser, errorToast, setData]
+    [checkUser, errorToast, setData, user?.access_token]
   )
 
   const deleteTask = useCallback(
@@ -107,14 +117,16 @@ export const useTask = (): ReturnValue => {
       if (checkUser(task.createdBy))
         try {
           const targetId = task.id
-          await axiosInstance.delete(`/v1/discarded/${targetId}`)
+          await axiosInstance(user?.access_token).delete(
+            `/v1/discarded/${targetId}`
+          )
           successToast('削除に成功しました！🗑')
           await setData()
         } catch (err) {
           errorToast('エラーが発生しました🥺')
         }
     },
-    [checkUser, errorToast, setData, successToast]
+    [checkUser, errorToast, setData, successToast, user?.access_token]
   )
 
   return {
