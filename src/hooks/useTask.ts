@@ -15,7 +15,7 @@ type ReturnValue = {
 }
 
 export const useTask = (): ReturnValue => {
-  const { uncompleted, completed, setData } = useSetTask()
+  const { setData } = useSetTask()
 
   const { successToast, errorToast } = useToast()
 
@@ -45,7 +45,7 @@ export const useTask = (): ReturnValue => {
           todo,
           createdBy,
         })
-        await setData()
+        setData()
       } catch (err) {
         errorToast('エラーが発生しました🥺')
       }
@@ -65,7 +65,7 @@ export const useTask = (): ReturnValue => {
           todo,
           createdBy,
         })
-        await setData()
+        setData()
       } catch (err) {
         errorToast('エラーが発生しました🥺')
       }
@@ -86,7 +86,7 @@ export const useTask = (): ReturnValue => {
           todo,
           createdBy,
         })
-        await setData()
+        setData()
       } catch (err) {
         errorToast('エラーが発生しました🥺')
       }

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useForm } from 'react-hook-form'
 
 import type { UserInfo } from 'src/types'
@@ -5,7 +6,7 @@ import type { UserInfo } from 'src/types'
 import { Input } from 'src/components/general/input/Input'
 import { useAuth } from 'src/hooks/useAuth'
 
-export const LoginForm: React.VFC = () => {
+export const LoginForm: React.VFC = memo(() => {
   const { register, handleSubmit } = useForm<UserInfo>()
   const onSubmit = async (data: UserInfo) => login(data)
 
@@ -31,4 +32,6 @@ export const LoginForm: React.VFC = () => {
       <input type="submit" value="ログイン" className="btn-secondary mt-2" />
     </form>
   )
-}
+})
+
+LoginForm.displayName = 'LoginForm'

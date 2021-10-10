@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
 import { DiscardedTask } from 'src/components/general/task/DiscardedTask'
 import { useSetTask } from 'src/hooks/useSetTask'
 
-export const DiscardedTaskList: React.VFC = () => {
+export const DiscardedTaskList: React.VFC = memo(() => {
   const { discarded, setData } = useSetTask()
 
   useEffect(() => {
@@ -21,4 +21,6 @@ export const DiscardedTaskList: React.VFC = () => {
       </ul>
     </div>
   )
-}
+})
+
+DiscardedTaskList.displayName = 'DiscardedTaskList'

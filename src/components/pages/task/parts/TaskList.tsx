@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
+import { memo, useEffect } from 'react'
 
 import { CompletedTaskList } from './CompletedTaskList'
 import { UncompletedTaskList } from './UncompletedTaskList'
 
 import { useSetTask } from 'src/hooks/useSetTask'
 
-export const TaskList: React.VFC = () => {
+export const TaskList: React.VFC = memo(() => {
   const { setData } = useSetTask()
   useEffect(() => {
     setData()
@@ -16,4 +16,6 @@ export const TaskList: React.VFC = () => {
       <CompletedTaskList />
     </div>
   )
-}
+})
+
+TaskList.displayName = 'TaskList'
