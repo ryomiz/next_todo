@@ -2,7 +2,7 @@ import { SetterOrUpdater, useRecoilState } from 'recoil'
 
 import type { Task } from 'src/types'
 
-import { fetcher } from 'src/lib/fetcher'
+import { axiosInstance } from 'src/lib/axiosInstance'
 import {
   completedTaskState,
   discardedTaskState,
@@ -13,9 +13,9 @@ type ReturnValue = {
   uncompleted: Array<Task>
   completed: Array<Task>
   discarded: Array<Task>
-  setUncompleted: SetterOrUpdater<Task[]>
-  setCompleted: SetterOrUpdater<Task[]>
-  setDiscarded: SetterOrUpdater<Task[]>
+  setUncompleted: SetterOrUpdater<Array<Task>>
+  setCompleted: SetterOrUpdater<Array<Task>>
+  setDiscarded: SetterOrUpdater<Array<Task>>
   setData(): Promise<void>
 }
 
@@ -25,21 +25,22 @@ export const useSetTask = (): ReturnValue => {
   const [discarded, setDiscarded] = useRecoilState(discardedTaskState)
   const setData = async () => {
     try {
-      const data = await fetcher()
-      // 未完了のタスクの設定
-      const newUncompleted = data.filter(
-        (item: Task) => item.state === 'uncompleted'
-      )
+      // uncompletedの設定
+      const newUncompleted = await axiosInstance
+        .get<Array<Task>>('v1/uncompleted')
+        .then((res) => res.data)
       setUncompleted(newUncompleted)
-      // 完了したタスクの設定
-      const newCompleted = data.filter(
-        (item: Task) => item.state === 'completed'
-      )
+
+      // completedの設定
+      const newCompleted = await axiosInstance
+        .get<Array<Task>>('v1/completed')
+        .then((res) => res.data)
       setCompleted(newCompleted)
-      // 削除されたタスクの設定
-      const newDiscarded = data.filter(
-        (item: Task) => item.state === 'discarded'
-      )
+
+      // discardedの設定
+      const newDiscarded = await axiosInstance
+        .get<Array<Task>>('v1/discarded')
+        .then((res) => res.data)
       setDiscarded(newDiscarded)
     } catch (err) {
       console.error(err, 'データの取得に失敗しました')

@@ -42,6 +42,7 @@ export const useAuth = (): ReturnValue => {
     if (userInfo) {
       setUserInfo(null)
       successToast('ログアウトしました！🔓')
+      router.push('/')
     } else {
       errorToast('ログアウトできませんでした🥺')
     }

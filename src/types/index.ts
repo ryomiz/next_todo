@@ -1,4 +1,4 @@
-export type LoginForm = {
+export type UserInfo = {
   username: string
   password: string
   access_token?: string
@@ -7,14 +7,15 @@ export type LoginForm = {
 export type PostTask = {
   duration: string
   todo: string
-  state: 'uncompleted'
+  createdBy: string
 }
 
 export type Task = {
   id: number
   duration: string
   todo: string
-  state: 'uncompleted' | 'completed' | 'discarded'
+  createdBy: string
+  createdAt: Date
 }
 
 export type Duration = Date | [Date, Date]

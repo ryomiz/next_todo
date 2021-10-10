@@ -6,14 +6,7 @@ import { UncompletedTask } from 'src/components/general/task/UncompletedTask'
 import { useSetTask } from 'src/hooks/useSetTask'
 
 export const TaskList: React.VFC = () => {
-  const {
-    uncompleted,
-    completed,
-    discarded,
-    setUncompleted,
-    setCompleted,
-    setData,
-  } = useSetTask()
+  const { uncompleted, completed, setUncompleted, setData } = useSetTask()
 
   useEffect(() => {
     setData()
@@ -83,7 +76,7 @@ export const TaskList: React.VFC = () => {
         </DragDropContext>
       </div>
       <div className="mb-8 rounded-lg">
-        <h2 className="mb-4 text-blue-600 text-xl">未完了のタスク</h2>
+        <h2 className="mb-4 text-red-600 text-xl">完了したタスク</h2>
         <ul className="flex flex-col gap-4">
           {completed.map((task, index) => (
             <CompletedTask key={index} task={task} />
