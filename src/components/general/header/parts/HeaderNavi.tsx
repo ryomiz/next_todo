@@ -1,8 +1,9 @@
 import Link from 'next/link'
+import { memo } from 'react'
 
 import { navMenu } from '../data'
 
-export const HeaderNavi: React.VFC = () => {
+export const HeaderNavi: React.VFC = memo(() => {
   return (
     <ul className="flex gap-4">
       {navMenu.map((item) => (
@@ -17,4 +18,6 @@ export const HeaderNavi: React.VFC = () => {
       ))}
     </ul>
   )
-}
+})
+
+HeaderNavi.displayName = 'HeaderNavi'

@@ -17,22 +17,14 @@ type ReturnValue = {
 }
 
 export const useTask = (): ReturnValue => {
-  const {
-    uncompleted,
-    completed,
-    discarded,
-    setUncompleted,
-    setCompleted,
-    setDiscarded,
-    setData,
-  } = useSetTask()
+  const { uncompleted, completed, setData } = useSetTask()
 
   const { successToast, errorToast } = useToast()
 
   const createTask = useCallback(
     async (task: PostTask) => {
       try {
-        await axiosInstance.post('/', task)
+        await axiosInstance.post('/v1/uncompleted', task)
         successToast('タスクの作成に成功しました🚀')
         setData()
       } catch (err) {
@@ -44,67 +36,77 @@ export const useTask = (): ReturnValue => {
 
   const completeTask = useCallback(
     async (task: Task) => {
-      const targetId = task.id
       try {
-        await axiosInstance.patch(`complete/${targetId}`)
-        const newUncompleted = [...uncompleted].filter(
-          (tsk) => tsk.id !== targetId
-        )
-        const newCompleted = [...completed, task]
-        setUncompleted(newUncompleted)
-        setCompleted(newCompleted)
+        const targetId = task.id
+        const { duration, todo, createdBy } = task
+        // uncompletedから削除
+        await axiosInstance.delete(`/v1/uncompleted/${targetId}`)
+        // completedに追加
+        await axiosInstance.post('/v1/completed', {
+          duration,
+          todo,
+          createdBy,
+        })
+        await setData()
       } catch (err) {
         console.error(err)
       }
     },
-    [completed, setCompleted, setUncompleted, uncompleted]
+    [setData]
   )
   const revertTask = useCallback(
     async (task: Task) => {
-      const targetId = task.id
       try {
-        await axiosInstance.patch(`revert/${targetId}`)
-
-        const newUncompleted = [...uncompleted, task]
-        const newCompleted = [...completed].filter((tsk) => tsk.id !== targetId)
-        setUncompleted(newUncompleted)
-        setCompleted(newCompleted)
+        const targetId = task.id
+        const { duration, todo, createdBy } = task
+        // completedから削除
+        await axiosInstance.delete(`/v1/completed/${targetId}`)
+        // uncompletedに追加
+        await axiosInstance.post('/v1/uncompleted', {
+          duration,
+          todo,
+          createdBy,
+        })
+        await setData()
       } catch (err) {
         console.error(err)
       }
     },
-    [completed, setCompleted, setUncompleted, uncompleted]
+    [setData]
   )
 
   const discardTask = useCallback(
     async (task: Task) => {
-      const targetId = task.id
       try {
-        await axiosInstance.patch(`discard/${targetId}`)
-
-        const newCompleted = [...completed].filter((tsk) => tsk.id !== targetId)
-        const newDiscarded = [...discarded, task]
-        setCompleted(newCompleted)
-        setDiscarded(newDiscarded)
+        const targetId = task.id
+        const { duration, todo, createdBy } = task
+        // completedから削除
+        await axiosInstance.delete(`/v1/completed/${targetId}`)
+        // discardedに追加
+        await axiosInstance.post('/v1/discarded', {
+          duration,
+          todo,
+          createdBy,
+        })
+        await setData()
       } catch (err) {
         console.error(err)
       }
     },
-    [completed, discarded, setCompleted, setDiscarded]
+    [setData]
   )
 
   const deleteTask = useCallback(
     async (task: Task) => {
-      const targetId = task.id
       try {
-        await axiosInstance.delete(`/${targetId}`)
-        const newDiscarded = [...discarded].filter((tsk) => tsk.id !== targetId)
-        setDiscarded(newDiscarded)
+        const targetId = task.id
+        await axiosInstance.delete(`/v1/discarded/${targetId}`)
+        await setData()
       } catch (err) {
         console.error(err)
       }
     },
-    [discarded, setDiscarded]
+    [setData]
   )
 
   return {

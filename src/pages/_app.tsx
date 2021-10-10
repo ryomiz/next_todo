@@ -1,10 +1,11 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
-
 import 'react-calendar/dist/Calendar.css'
+
 import { RecoilRoot } from 'recoil'
 
-function MyApp({ Component, pageProps }: AppProps) {
+import type { AppProps } from 'next/app'
+
+function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
     <RecoilRoot>
       <Component {...pageProps} />

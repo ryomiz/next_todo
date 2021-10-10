@@ -7,14 +7,15 @@ export type UserInfo = {
 export type PostTask = {
   duration: string
   todo: string
-  state: 'uncompleted'
+  createdBy: string
 }
 
 export type Task = {
   id: number
   duration: string
   todo: string
-  state: 'uncompleted' | 'completed' | 'discarded'
+  createdBy: string
+  createdAt: Date
 }
 
 export type Duration = Date | [Date, Date]

@@ -19,7 +19,7 @@ export const AssetsIndex: React.VFC = () => {
           <div className="mb-16">
             <Image src={topImg} placeholder="blur" alt="WEB" />
           </div>
-          <PrimaryButton isLarge={true} href={user ? '/task' : '/login'}>
+          <PrimaryButton isLarge={true} href="/task">
             Get Started
           </PrimaryButton>
         </article>
