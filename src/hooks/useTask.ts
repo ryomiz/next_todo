@@ -1,12 +1,11 @@
 import { useCallback } from 'react'
-import { useRecoilValue } from 'recoil'
 
+import { useAuth } from './useAuth'
 import { useSetTask } from './useSetTask'
 import { useToast } from './useToast'
 import { useValidation } from './useValidation'
 
 import { axiosInstance } from 'src/lib/axiosInstance'
-import { userInfo } from 'src/stores'
 import { PostTask, Task } from 'src/types'
 
 type ReturnValue = {
@@ -20,7 +19,7 @@ type ReturnValue = {
 export const useTask = (): ReturnValue => {
   const { setData } = useSetTask()
 
-  const user = useRecoilValue(userInfo) ?? undefined
+  const { user } = useAuth()
   const { checkUser } = useValidation()
   const { successToast, errorToast } = useToast()
 

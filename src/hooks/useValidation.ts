@@ -1,15 +1,12 @@
-import { useRecoilValue } from 'recoil'
-
+import { useAuth } from './useAuth'
 import { useToast } from './useToast'
-
-import { userInfo } from 'src/stores'
 
 type ReturnValue = {
   checkUser: (arg: string) => boolean
 }
 
 export const useValidation = (): ReturnValue => {
-  const user = useRecoilValue(userInfo)
+  const { user } = useAuth()
 
   const { errorToast } = useToast()
 

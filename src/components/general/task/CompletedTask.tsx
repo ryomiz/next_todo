@@ -1,4 +1,5 @@
 import { SecondaryButton } from 'src/components/general/button/SecondaryButton'
+import { useAuth } from 'src/hooks/useAuth'
 import { useTask } from 'src/hooks/useTask'
 import { Task } from 'src/types'
 
@@ -9,6 +10,8 @@ type Props = {
 export const CompletedTask: React.VFC<Props> = (props) => {
   const { task } = props
   const { duration, todo } = task
+
+  const { user } = useAuth()
   const { revertTask, discardTask } = useTask()
   return (
     <div className="relative flex items-center p-4 rounded-lg shadow">

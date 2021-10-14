@@ -2,18 +2,16 @@ import dayjs from 'dayjs'
 import { memo, useState } from 'react'
 import Calendar from 'react-calendar'
 import { useForm } from 'react-hook-form'
-import { useRecoilValue } from 'recoil'
 
 import type { Duration, PostTask, Task } from 'src/types/index'
 
+import { useAuth } from 'src/hooks/useAuth'
 import { useTask } from 'src/hooks/useTask'
 import { useToast } from 'src/hooks/useToast'
 import { formatDate } from 'src/lib/formatDate'
-import { userInfo } from 'src/stores'
 
 export const TaskForm: React.VFC = memo(() => {
-  const user = useRecoilValue(userInfo)
-
+  const { user } = useAuth()
   const today = dayjs().toDate()
   const [date, setDate] = useState<Duration>(today)
   const {

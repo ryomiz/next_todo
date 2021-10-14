@@ -9,24 +9,25 @@ import { userInfo as state } from 'src/stores'
 import { UserInfo } from 'src/types'
 
 type ReturnValue = {
+  user: UserInfo | undefined
   login: (arg: UserInfo) => Promise<void>
   logout: () => void
 }
 
 export const useAuth = (): ReturnValue => {
-  const [userInfo, setUserInfo] = useRecoilState(state)
+  const [user, setUser] = useRecoilState(state)
 
   const router = useRouter()
   const { successToast, errorToast } = useToast()
 
   const login = useCallback(
-    async (user: UserInfo) => {
+    async (usr: UserInfo) => {
       try {
-        const res = await axiosInstance().post('auth/login', user)
+        const res = await axiosInstance().post('auth/login', usr)
         const token = res.data.access_token
         if (token) {
-          setUserInfo({
-            ...user,
+          setUser({
+            ...usr,
             access_token: token,
           })
           successToast('ログインしました！🚀')
@@ -36,18 +37,17 @@ export const useAuth = (): ReturnValue => {
         errorToast('ログインに失敗しました🥺')
       }
     },
-    [router, errorToast, successToast, setUserInfo]
+    [errorToast, router, setUser, successToast]
   )
 
   const logout = useCallback(() => {
-    if (userInfo) {
-      setUserInfo(undefined)
+    if (user) {
+      setUser(undefined)
       successToast('ログアウトしました！🔓')
       router.push('/')
     } else {
       errorToast('ログアウトできませんでした🥺')
     }
-  }, [errorToast, router, setUserInfo, successToast, userInfo])
-
-  return { login, logout }
+  }, [errorToast, router, setUser, successToast, user])
+  return { user, login, logout }
 }
