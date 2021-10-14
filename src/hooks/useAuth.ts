@@ -12,6 +12,7 @@ type ReturnValue = {
   user: UserInfo | undefined
   login: (arg: UserInfo) => Promise<void>
   logout: () => void
+  checkUser: (createdBy: string) => boolean
 }
 
 export const useAuth = (): ReturnValue => {
@@ -49,5 +50,21 @@ export const useAuth = (): ReturnValue => {
       errorToast('ログアウトできませんでした🥺')
     }
   }, [errorToast, router, setUser, successToast, user])
-  return { user, login, logout }
+
+  const checkUser = useCallback(
+    (createdBy: string) => {
+      if (!user) {
+        errorToast('ログインしてください🥺')
+        return false
+      } else if (user.username !== createdBy) {
+        errorToast('他の人のタスクは編集できません🥺')
+        return false
+      } else {
+        return true
+      }
+    },
+    [errorToast, user]
+  )
+
+  return { user, login, logout, checkUser }
 }
