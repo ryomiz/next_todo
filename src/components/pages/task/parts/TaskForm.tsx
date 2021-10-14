@@ -30,11 +30,12 @@ export const TaskForm: React.VFC = memo(() => {
     if (!user) {
       return errorToast('ログインしてください🥺')
     }
-    const dateString = date.toString()
     // 日付が二つ選択されていない場合、エラーのToastを表示
-    if (!dateString.includes(',')) {
+    if (date instanceof Date) {
       return errorToast('期間を設定してください🥺')
     }
+
+    // 選択したデータをフォーマットする
     const duration = formatDate(date)
     const task: PostTask = {
       duration,

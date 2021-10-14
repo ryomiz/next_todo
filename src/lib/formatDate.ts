@@ -1,8 +1,6 @@
 import dayjs from 'dayjs'
 
-import { Duration } from 'src/types'
-
-export const formatDate = (duration: Duration): string => {
+export const formatDate = (duration: [Date, Date]): string => {
   const formattedDate = duration
     .map((date) => dayjs(date).format('MM-DD'))
     .join(' ')
