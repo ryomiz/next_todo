@@ -2,9 +2,9 @@ import { atom } from 'recoil'
 
 import type { Task, UserInfo } from 'src/types'
 
-export const userInfo = atom<UserInfo | null>({
+export const userInfo = atom<UserInfo | undefined>({
   key: 'userInfo',
-  default: null,
+  default: undefined,
 })
 
 export const uncompletedTaskState = atom<Array<Task>>({

@@ -41,7 +41,7 @@ export const useAuth = (): ReturnValue => {
 
   const logout = useCallback(() => {
     if (userInfo) {
-      setUserInfo(null)
+      setUserInfo(undefined)
       successToast('ログアウトしました！🔓')
       router.push('/')
     } else {
