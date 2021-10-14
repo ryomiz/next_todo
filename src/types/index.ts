@@ -1,6 +1,6 @@
 export type UserInfo = {
   username: string
-  password: string
+  password: string | undefined
   access_token: string | undefined
 }
 

@@ -11,9 +11,9 @@ import { useToast } from 'src/hooks/useToast'
 import { formatDate } from 'src/lib/formatDate'
 
 export const TaskForm: React.VFC = memo(() => {
-  const { user } = useAuth()
   const today = dayjs().toDate()
   const [date, setDate] = useState<Duration>(today)
+
   const {
     register,
     handleSubmit,
@@ -21,9 +21,10 @@ export const TaskForm: React.VFC = memo(() => {
     reset,
   } = useForm<Task>()
 
+  const { user } = useAuth()
   const { createTask } = useTask()
-
   const { errorToast } = useToast()
+
   const onSubmit = async (data: Task) => {
     if (!user) {
       return errorToast('ログインしてください🥺')

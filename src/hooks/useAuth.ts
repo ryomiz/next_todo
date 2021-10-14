@@ -1,5 +1,6 @@
 import { useRouter } from 'next/dist/client/router'
-import { useCallback } from 'react'
+import { destroyCookie, parseCookies, setCookie } from 'nookies'
+import { useCallback, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { useToast } from './useToast'
@@ -17,6 +18,16 @@ type ReturnValue = {
 
 export const useAuth = (): ReturnValue => {
   const [user, setUser] = useRecoilState(state)
+  const cookies = parseCookies()
+  useEffect(() => {
+    if (!user && cookies.username && cookies.accessToken) {
+      setUser({
+        username: cookies.username,
+        password: undefined,
+        access_token: cookies.accessToken,
+      })
+    }
+  }, [])
 
   const router = useRouter()
   const { successToast, errorToast } = useToast()
@@ -29,8 +40,16 @@ export const useAuth = (): ReturnValue => {
         if (token) {
           setUser({
             ...usr,
+            password: undefined,
             access_token: token,
           })
+          setCookie(undefined, 'username', usr.username, {
+            maxAge: 60 * 60 * 24,
+          })
+          setCookie(undefined, 'accessToken', token, {
+            maxAge: 60 * 60 * 24,
+          })
+
           successToast('ログインしました！🚀')
           router.push('/task')
         }
@@ -44,6 +63,8 @@ export const useAuth = (): ReturnValue => {
   const logout = useCallback(() => {
     if (user) {
       setUser(undefined)
+      destroyCookie(undefined, 'username')
+      destroyCookie(undefined, 'accessToken')
       successToast('ログアウトしました！🔓')
       router.push('/')
     } else {
