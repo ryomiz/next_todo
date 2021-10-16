@@ -2,7 +2,6 @@ import React from 'react'
 import Modal from 'react-responsive-modal'
 import { useRecoilState } from 'recoil'
 
-import { UpdateForm } from 'src/components/general/vendors/UpdateForm'
 import { modalState } from 'src/stores'
 import { Task } from 'src/types'
 type Props = {
@@ -43,7 +42,7 @@ export const useModal = (): ReturnType => {
     }
     return (
       <Modal open={modal.open} onClose={onCloseModal} center>
-        <UpdateForm />
+        {children}
       </Modal>
     )
   }

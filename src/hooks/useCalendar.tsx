@@ -24,7 +24,7 @@ export const useCalendar = (): ReturnValue => {
         value={date}
         calendarType="US"
         selectRange={true}
-        className="mb-4 mt-8 mx-auto"
+        className="mt-8 mx-auto"
       />
     )
   }

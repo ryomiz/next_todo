@@ -48,7 +48,9 @@ export const UpdateForm: React.VFC = () => {
   } else
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <MyCalendar />
+        <div className="mb-4">
+          <MyCalendar />
+        </div>
         <div className="flex gap-2 items-center mb-4">
           <input
             type="text"
