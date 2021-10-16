@@ -1,5 +1,3 @@
-import { MyToaster } from '../general/vendors/MyToaster'
-
 import { Footer } from './Footer'
 
 import { Header } from 'src/components/general/header'
@@ -13,7 +11,6 @@ export const Layout: React.FC<Props> = (props) => {
 
   return (
     <>
-      <MyToaster />
       <Header />
       <div className="mx-auto max-w-screen-lg">{children}</div>
       <Footer />

@@ -1,10 +1,8 @@
-import dayjs from 'dayjs'
-import { useState } from 'react'
-import Calendar from 'react-calendar'
 import { useForm } from 'react-hook-form'
 
-import type { Duration, PostTask } from 'src/types'
+import type { PostTask } from 'src/types'
 
+import { useCalendar } from 'src/hooks/useCalendar'
 import { useModal } from 'src/hooks/useModal'
 import { useTask } from 'src/hooks/useTask'
 import { useToast } from 'src/hooks/useToast'
@@ -13,9 +11,7 @@ import { formatDate } from 'src/lib/formatDate'
 export const UpdateForm: React.VFC = () => {
   const { modal, onCloseModal } = useModal()
 
-  const today = dayjs().toDate()
-  const [date, setDate] = useState<Duration>(today)
-
+  const { date, resetCalendar, MyCalendar } = useCalendar()
   const { updateTask } = useTask()
   const {
     register,
@@ -44,7 +40,7 @@ export const UpdateForm: React.VFC = () => {
 
     onCloseModal()
     reset()
-    setDate(today)
+    resetCalendar()
   }
 
   if (!modal.data) {
@@ -52,13 +48,7 @@ export const UpdateForm: React.VFC = () => {
   } else
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Calendar
-          onChange={setDate}
-          value={date}
-          calendarType="US"
-          selectRange={true}
-          className="mb-4 mt-8 mx-auto"
-        />
+        <MyCalendar />
         <div className="flex gap-2 items-center mb-4">
           <input
             type="text"

@@ -6,9 +6,14 @@ import { RecoilRoot } from 'recoil'
 
 import type { AppProps } from 'next/app'
 
+import { useToast } from 'src/hooks/useToast'
+
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+  const { MyToaster } = useToast()
+
   return (
     <RecoilRoot>
+      <MyToaster />
       <Component {...pageProps} />
     </RecoilRoot>
   )

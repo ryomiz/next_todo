@@ -1,18 +1,16 @@
-import dayjs from 'dayjs'
-import { memo, useState } from 'react'
-import Calendar from 'react-calendar'
+import { memo } from 'react'
 import { useForm } from 'react-hook-form'
 
-import type { Duration, PostTask, Task } from 'src/types/index'
+import type { PostTask, Task } from 'src/types/index'
 
 import { useAuth } from 'src/hooks/useAuth'
+import { useCalendar } from 'src/hooks/useCalendar'
 import { useTask } from 'src/hooks/useTask'
 import { useToast } from 'src/hooks/useToast'
 import { formatDate } from 'src/lib/formatDate'
 
 export const TaskForm: React.VFC = memo(() => {
-  const today = dayjs().toDate()
-  const [date, setDate] = useState<Duration>(today)
+  const { date, resetCalendar, MyCalendar } = useCalendar()
 
   const {
     register,
@@ -45,7 +43,7 @@ export const TaskForm: React.VFC = memo(() => {
 
     // カレンダー、Todoのフォームをリセットする
     reset()
-    setDate(today)
+    resetCalendar()
   }
 
   return (
@@ -53,13 +51,7 @@ export const TaskForm: React.VFC = memo(() => {
       <h1 className="mb-2 text-3xl">タスクの作成</h1>
       <p className="mb-6">期間とやることを入力して、タスクを作成する！</p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Calendar
-          onChange={setDate}
-          value={date}
-          calendarType="US"
-          selectRange={true}
-          className="mb-4 mx-auto"
-        />
+        <MyCalendar />
 
         <input
           type="text"
