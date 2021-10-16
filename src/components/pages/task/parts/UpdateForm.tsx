@@ -4,47 +4,27 @@ import type { FormValues } from 'src/types'
 
 import { useCalendar } from 'src/hooks/useCalendar'
 import { useModal } from 'src/hooks/useModal'
-import { useTask } from 'src/hooks/useTask'
-import { useToast } from 'src/hooks/useToast'
-import { formatDate } from 'src/lib/formatDate'
+import { useSubmitHandler } from 'src/hooks/useSubmitHandler'
 
 export const UpdateForm: React.VFC = () => {
-  const { modal, onCloseModal } = useModal()
-
-  const { date, resetCalendar, MyCalendar } = useCalendar()
-  const { updateTask } = useTask()
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<FormValues>()
-  const { errorToast } = useToast()
+  const { date, MyCalendar } = useCalendar()
+  const { handleUpdate } = useSubmitHandler(reset)
+
+  const { modal } = useModal()
 
   const onSubmit = (data: FormValues) => {
-    // 日付が二つ選択されていない場合、エラーのToastを表示
-    if (date instanceof Date) {
-      return errorToast('期間を設定してください🥺')
-    }
-    const format = formatDate(date)
-
-    if (modal.data) {
-      const task = {
-        ...modal.data,
-        todo: data.todo,
-        duration: format,
-      }
-
-      updateTask(task)
-    }
-
-    reset()
-    resetCalendar()
-    onCloseModal()
+    handleUpdate(data, date)
   }
 
+  // モーダルの中身がからの場合、nullをreturn
   if (!modal.data) {
-    return <></>
+    return null
   } else
     return (
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,16 +1,13 @@
 import { memo } from 'react'
 import { useForm } from 'react-hook-form'
 
-import type { FormValues, PostTask } from 'src/types/index'
+import type { FormValues } from 'src/types/index'
 
-import { useAuth } from 'src/hooks/useAuth'
 import { useCalendar } from 'src/hooks/useCalendar'
-import { useTask } from 'src/hooks/useTask'
-import { useToast } from 'src/hooks/useToast'
-import { formatDate } from 'src/lib/formatDate'
+import { useSubmitHandler } from 'src/hooks/useSubmitHandler'
 
 export const TaskForm: React.VFC = memo(() => {
-  const { date, resetCalendar, MyCalendar } = useCalendar()
+  const { date, MyCalendar } = useCalendar()
 
   const {
     register,
@@ -19,31 +16,10 @@ export const TaskForm: React.VFC = memo(() => {
     reset,
   } = useForm<FormValues>()
 
-  const { user } = useAuth()
-  const { createTask } = useTask()
-  const { errorToast } = useToast()
+  const { handleCreate } = useSubmitHandler(reset)
 
   const onSubmit = (data: FormValues) => {
-    if (!user) {
-      return errorToast('ログインしてください🥺')
-    }
-    // 日付が二つ選択されていない場合、エラーのToastを表示
-    if (date instanceof Date) {
-      return errorToast('期間を設定してください🥺')
-    }
-
-    // 選択したデータをフォーマットする
-    const duration = formatDate(date)
-    const task: PostTask = {
-      duration,
-      todo: data.todo,
-      createdBy: user.username,
-    }
-    createTask(task)
-
-    // カレンダー、Todoのフォームをリセットする
-    reset()
-    resetCalendar()
+    handleCreate(data, date)
   }
 
   return (
