@@ -1,6 +1,7 @@
 import { memo, useEffect } from 'react'
 
-import { DiscardedTask } from 'src/components/general/task/DiscardedTask'
+import { DiscardedTask } from './DiscardedTask'
+
 import { useSetTask } from 'src/hooks/useSetTask'
 
 export const DiscardedTaskList: React.VFC = memo(() => {

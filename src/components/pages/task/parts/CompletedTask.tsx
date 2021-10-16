@@ -1,33 +1,34 @@
+import { memo } from 'react'
+
 import type { Task } from 'src/types'
 
 import { SecondaryButton } from 'src/components/general/button/SecondaryButton'
 import { useAuth } from 'src/hooks/useAuth'
-import { useModal } from 'src/hooks/useModal'
 import { useTask } from 'src/hooks/useTask'
 
 type Props = {
   task: Task
 }
 
-export const UncompletedTask: React.VFC<Props> = (props) => {
+export const CompletedTask: React.VFC<Props> = memo((props) => {
   const { task } = props
   const { duration, todo } = task
 
   const { checkUser } = useAuth()
-  const { completeTask } = useTask()
-  const { onOpenModal } = useModal()
+  const { revertTask, discardTask } = useTask()
 
-  const handleUpdate = (tsk: Task) => {
+  const handleRevert = (tsk: Task) => {
     if (checkUser(tsk.createdBy)) {
-      onOpenModal(tsk)
+      revertTask(tsk)
     }
   }
 
-  const handleComplete = (tsk: Task) => {
+  const handleDiscard = (tsk: Task) => {
     if (checkUser(tsk.createdBy)) {
-      completeTask(tsk)
+      discardTask(tsk)
     }
   }
+
   return (
     <div className="relative flex items-center p-4 rounded-lg shadow">
       <span className="w-32">{duration}</span>
@@ -35,14 +36,16 @@ export const UncompletedTask: React.VFC<Props> = (props) => {
         by {task.createdBy}
       </span>
       <p className="order-2 w-48 truncate">{todo}</p>
-      <div className="flex gap-3 order-3 ml-auto">
-        <SecondaryButton color="gray" onClick={() => handleUpdate(task)}>
-          編集
+      <div className="flex gap-2 order-3 ml-auto">
+        <SecondaryButton color="indigo" onClick={() => handleRevert(task)}>
+          戻す
         </SecondaryButton>
-        <SecondaryButton color="green" onClick={() => handleComplete(task)}>
-          完了
+        <SecondaryButton color="red" onClick={() => handleDiscard(task)}>
+          削除
         </SecondaryButton>
       </div>
     </div>
   )
-}
+})
+
+CompletedTask.displayName = 'CompletedTask'
