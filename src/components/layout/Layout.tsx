@@ -1,4 +1,4 @@
-import { MyToaster } from '../general/toaster/MyToaster'
+import { MyToaster } from '../general/vendors/MyToaster'
 
 import { Footer } from './Footer'
 

@@ -10,6 +10,7 @@ import { PostTask, Task } from 'src/types'
 type ReturnValue = {
   createTask: (task: PostTask) => void
   completeTask: (task: Task) => void
+  updateTask: (task: Task) => void
   revertTask: (task: Task) => void
   discardTask: (task: Task) => void
   deleteTask: (task: Task) => void
@@ -54,6 +55,26 @@ export const useTask = (): ReturnValue => {
     },
     [errorToast, setData, user]
   )
+
+  const updateTask = useCallback(
+    async (task: Task) => {
+      try {
+        const targetId = task.id
+        const { duration, todo, createdBy } = task
+        await axiosInstance(user).patch(`/v1/uncompleted/${targetId}`, {
+          duration,
+          todo,
+          createdBy,
+        })
+        await setData()
+        successToast('タスクの更新に成功しました🚀')
+      } catch (err) {
+        errorToast('エラーが発生しました🥺')
+      }
+    },
+    [errorToast, setData, user]
+  )
+
   const revertTask = useCallback(
     async (task: Task) => {
       try {
@@ -93,7 +114,7 @@ export const useTask = (): ReturnValue => {
         errorToast('エラーが発生しました🥺')
       }
     },
-    [errorToast, setData, user]
+    [errorToast, setData, successToast, user]
   )
 
   const deleteTask = useCallback(
@@ -113,6 +134,7 @@ export const useTask = (): ReturnValue => {
   return {
     createTask,
     completeTask,
+    updateTask,
     revertTask,
     discardTask,
     deleteTask,

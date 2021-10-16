@@ -2,6 +2,17 @@ import { atom } from 'recoil'
 
 import type { Task, UserInfo } from 'src/types'
 
+export const modalState = atom<{
+  open: boolean
+  data: Task | null
+}>({
+  key: 'modalState',
+  default: {
+    open: false,
+    data: null,
+  },
+})
+
 export const userInfo = atom<UserInfo | undefined>({
   key: 'userInfo',
   default: undefined,

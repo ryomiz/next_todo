@@ -1,5 +1,6 @@
 import '../styles/globals.css'
 import 'react-calendar/dist/Calendar.css'
+import 'react-responsive-modal/styles.css'
 
 import { RecoilRoot } from 'recoil'
 
