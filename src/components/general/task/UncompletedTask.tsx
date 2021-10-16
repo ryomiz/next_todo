@@ -2,6 +2,7 @@ import type { Task } from 'src/types'
 
 import { SecondaryButton } from 'src/components/general/button/SecondaryButton'
 import { useAuth } from 'src/hooks/useAuth'
+import { useModal } from 'src/hooks/useModal'
 import { useTask } from 'src/hooks/useTask'
 
 type Props = {
@@ -14,6 +15,13 @@ export const UncompletedTask: React.VFC<Props> = (props) => {
 
   const { checkUser } = useAuth()
   const { completeTask } = useTask()
+  const { onOpenModal } = useModal()
+
+  const handleUpdate = (tsk: Task) => {
+    if (checkUser(tsk.createdBy)) {
+      onOpenModal(tsk)
+    }
+  }
 
   const handleComplete = (tsk: Task) => {
     if (checkUser(tsk.createdBy)) {
@@ -28,7 +36,7 @@ export const UncompletedTask: React.VFC<Props> = (props) => {
       </span>
       <p className="order-2 w-48 truncate">{todo}</p>
       <div className="flex gap-3 order-3 ml-auto">
-        <SecondaryButton color="gray" onClick={() => handleComplete(task)}>
+        <SecondaryButton color="gray" onClick={() => handleUpdate(task)}>
           編集
         </SecondaryButton>
         <SecondaryButton color="green" onClick={() => handleComplete(task)}>
