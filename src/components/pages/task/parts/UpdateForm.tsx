@@ -38,9 +38,9 @@ export const UpdateForm: React.VFC = () => {
       updateTask(task)
     }
 
-    onCloseModal()
     reset()
     resetCalendar()
+    onCloseModal()
   }
 
   if (!modal.data) {
