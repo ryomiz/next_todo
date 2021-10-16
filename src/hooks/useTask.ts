@@ -122,7 +122,7 @@ export const useTask = (): ReturnValue => {
       try {
         const targetId = task.id
         await axiosInstance(user).delete(`/v1/discarded/${targetId}`)
-        successToast('削除に成功しました！🗑')
+        successToast('消去に成功しました！🗑')
         await setData()
       } catch (err) {
         errorToast('エラーが発生しました🥺')
