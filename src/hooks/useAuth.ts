@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil'
 import { useToast } from './useToast'
 
 import { axiosInstance } from 'src/lib/axiosInstance'
-import { userInfo as state } from 'src/stores'
+import { userInfo } from 'src/stores'
 import { UserInfo } from 'src/types'
 
 type ReturnValue = {
@@ -17,7 +17,9 @@ type ReturnValue = {
 }
 
 export const useAuth = (): ReturnValue => {
-  const [user, setUser] = useRecoilState(state)
+  const router = useRouter()
+
+  const [user, setUser] = useRecoilState(userInfo)
   const cookies = parseCookies()
   useEffect(() => {
     if (!user && cookies.username && cookies.accessToken) {
@@ -27,9 +29,8 @@ export const useAuth = (): ReturnValue => {
         access_token: cookies.accessToken,
       })
     }
-  }, [])
+  }, [cookies.accessToken, cookies.username, setUser, user])
 
-  const router = useRouter()
   const { successToast, errorToast } = useToast()
 
   const login = useCallback(

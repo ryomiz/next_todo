@@ -1,39 +1,41 @@
-import { memo } from 'react'
 import { useForm } from 'react-hook-form'
 
-import type { FormValues } from 'src/types/index'
+import type { FormValues } from 'src/types'
 
 import { useCalendar } from 'src/hooks/useCalendar'
+import { useModal } from 'src/hooks/useModal'
 import { useSubmitHandler } from 'src/hooks/useSubmitHandler'
 
-export const TaskForm: React.VFC = memo(() => {
-  const { date, MyCalendar } = useCalendar()
-
+export const UpdateForm: React.VFC = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<FormValues>()
+  const { date, MyCalendar } = useCalendar()
+  const { handleUpdate } = useSubmitHandler(reset)
 
-  const { handleCreate } = useSubmitHandler(reset)
+  const { modal } = useModal()
 
   const onSubmit = (data: FormValues) => {
-    handleCreate(data, date)
+    handleUpdate(data, date)
   }
 
-  return (
-    <div className="p-4 w-5/12 text-center">
-      <h1 className="mb-2 text-3xl">タスクの作成</h1>
-      <p className="mb-6">期間とやることを入力して、タスクを作成する！</p>
+  // モーダルの中身がからの場合、nullをreturn
+  if (!modal.data) {
+    return null
+  } else
+    return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-4">
           <MyCalendar />
         </div>
-        <div className="flex gap-2 items-center mb-4 px-6">
+        <div className="flex gap-2 items-center mb-4">
           <input
             type="text"
             placeholder="タスクを入力！"
+            defaultValue={modal.data.todo}
             {...register('todo', {
               required: true,
             })}
@@ -47,8 +49,5 @@ export const TaskForm: React.VFC = memo(() => {
           </p>
         )}
       </form>
-    </div>
-  )
-})
-
-TaskForm.displayName = 'TaskForm'
+    )
+}

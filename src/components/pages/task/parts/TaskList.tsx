@@ -2,8 +2,8 @@ import { memo, useEffect } from 'react'
 
 import { CompletedTaskList } from './CompletedTaskList'
 import { UncompletedTaskList } from './UncompletedTaskList'
+import { UpdateForm } from './UpdateForm'
 
-import { UpdateForm } from 'src/components/general/vendors/UpdateForm'
 import { useModal } from 'src/hooks/useModal'
 import { useSetTask } from 'src/hooks/useSetTask'
 

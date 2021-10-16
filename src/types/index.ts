@@ -4,6 +4,10 @@ export type UserInfo = {
   access_token: string | undefined
 }
 
+export type FormValues = {
+  todo: string
+}
+
 export type PostTask = {
   duration: string
   todo: string

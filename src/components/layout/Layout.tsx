@@ -1,8 +1,5 @@
-import { MyToaster } from '../general/vendors/MyToaster'
-
 import { Footer } from './Footer'
-
-import { Header } from 'src/components/general/header'
+import { Header } from './Header'
 
 type Props = {
   children: React.ReactNode
@@ -13,7 +10,6 @@ export const Layout: React.FC<Props> = (props) => {
 
   return (
     <>
-      <MyToaster />
       <Header />
       <div className="mx-auto max-w-screen-lg">{children}</div>
       <Footer />

@@ -1,14 +1,16 @@
-import { SecondaryButton } from '../button/SecondaryButton'
+import { memo } from 'react'
 
+import type { Task } from 'src/types'
+
+import { SecondaryButton } from 'src/components/general/button/SecondaryButton'
 import { useAuth } from 'src/hooks/useAuth'
 import { useTask } from 'src/hooks/useTask'
-import { Task } from 'src/types'
 
 type Props = {
   task: Task
 }
 
-export const DiscardedTask: React.VFC<Props> = (props) => {
+export const DiscardedTask: React.VFC<Props> = memo((props) => {
   const { task } = props
   const { duration, todo } = task
 
@@ -34,4 +36,6 @@ export const DiscardedTask: React.VFC<Props> = (props) => {
       </div>
     </div>
   )
-}
+})
+
+DiscardedTask.displayName = 'DiscardedTask'
