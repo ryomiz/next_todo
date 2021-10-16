@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 
-import type { PostTask } from 'src/types'
+import type { FormValues } from 'src/types'
 
 import { useCalendar } from 'src/hooks/useCalendar'
 import { useModal } from 'src/hooks/useModal'
@@ -18,10 +18,10 @@ export const UpdateForm: React.VFC = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<PostTask>()
+  } = useForm<FormValues>()
   const { errorToast } = useToast()
 
-  const onSubmit = (data: PostTask) => {
+  const onSubmit = (data: FormValues) => {
     // 日付が二つ選択されていない場合、エラーのToastを表示
     if (date instanceof Date) {
       return errorToast('期間を設定してください🥺')

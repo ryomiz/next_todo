@@ -1,7 +1,7 @@
 import { memo } from 'react'
 import { useForm } from 'react-hook-form'
 
-import type { PostTask, Task } from 'src/types/index'
+import type { FormValues, PostTask } from 'src/types/index'
 
 import { useAuth } from 'src/hooks/useAuth'
 import { useCalendar } from 'src/hooks/useCalendar'
@@ -17,13 +17,13 @@ export const TaskForm: React.VFC = memo(() => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<Task>()
+  } = useForm<FormValues>()
 
   const { user } = useAuth()
   const { createTask } = useTask()
   const { errorToast } = useToast()
 
-  const onSubmit = async (data: Task) => {
+  const onSubmit = (data: FormValues) => {
     if (!user) {
       return errorToast('ログインしてください🥺')
     }

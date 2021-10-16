@@ -27,7 +27,7 @@ export const useAuth = (): ReturnValue => {
         access_token: cookies.accessToken,
       })
     }
-  }, [])
+  }, [cookies.accessToken, cookies.username, setUser, user])
 
   const router = useRouter()
   const { successToast, errorToast } = useToast()

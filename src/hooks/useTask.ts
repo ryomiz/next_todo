@@ -72,7 +72,7 @@ export const useTask = (): ReturnValue => {
         errorToast('エラーが発生しました🥺')
       }
     },
-    [errorToast, setData, user]
+    [errorToast, setData, successToast, user]
   )
 
   const revertTask = useCallback(
@@ -114,7 +114,7 @@ export const useTask = (): ReturnValue => {
         errorToast('エラーが発生しました🥺')
       }
     },
-    [errorToast, setData, successToast, user]
+    [errorToast, setData, user]
   )
 
   const deleteTask = useCallback(
