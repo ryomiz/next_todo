@@ -26,17 +26,17 @@ export const useSetTask = (): ReturnValue => {
   const setData = async () => {
     try {
       // uncompletedの設定
-      const newUncompleted = await axiosInstance
+      const newUncompleted = await axiosInstance()
         .get<Array<Task>>('v1/uncompleted')
         .then((res) => res.data)
 
       // completedの設定
-      const newCompleted = await axiosInstance
+      const newCompleted = await axiosInstance()
         .get<Array<Task>>('v1/completed')
         .then((res) => res.data)
 
       // discardedの設定
-      const newDiscarded = await axiosInstance
+      const newDiscarded = await axiosInstance()
         .get<Array<Task>>('v1/discarded')
         .then((res) => res.data)
 

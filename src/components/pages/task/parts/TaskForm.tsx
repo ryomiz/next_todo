@@ -2,20 +2,18 @@ import dayjs from 'dayjs'
 import { memo, useState } from 'react'
 import Calendar from 'react-calendar'
 import { useForm } from 'react-hook-form'
-import { useRecoilValue } from 'recoil'
 
 import type { Duration, PostTask, Task } from 'src/types/index'
 
+import { useAuth } from 'src/hooks/useAuth'
 import { useTask } from 'src/hooks/useTask'
 import { useToast } from 'src/hooks/useToast'
 import { formatDate } from 'src/lib/formatDate'
-import { userInfo } from 'src/stores'
 
 export const TaskForm: React.VFC = memo(() => {
-  const user = useRecoilValue(userInfo)
-
   const today = dayjs().toDate()
   const [date, setDate] = useState<Duration>(today)
+
   const {
     register,
     handleSubmit,
@@ -23,18 +21,20 @@ export const TaskForm: React.VFC = memo(() => {
     reset,
   } = useForm<Task>()
 
+  const { user } = useAuth()
   const { createTask } = useTask()
-
   const { errorToast } = useToast()
+
   const onSubmit = async (data: Task) => {
     if (!user) {
       return errorToast('ログインしてください🥺')
     }
-    const dateString = date.toString()
     // 日付が二つ選択されていない場合、エラーのToastを表示
-    if (!dateString.includes(',')) {
+    if (date instanceof Date) {
       return errorToast('期間を設定してください🥺')
     }
+
+    // 選択したデータをフォーマットする
     const duration = formatDate(date)
     const task: PostTask = {
       duration,

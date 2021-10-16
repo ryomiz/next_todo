@@ -1,5 +1,6 @@
 import { useRouter } from 'next/dist/client/router'
-import { useCallback } from 'react'
+import { destroyCookie, parseCookies, setCookie } from 'nookies'
+import { useCallback, useEffect } from 'react'
 import { useRecoilState } from 'recoil'
 
 import { useToast } from './useToast'
@@ -9,26 +10,46 @@ import { userInfo as state } from 'src/stores'
 import { UserInfo } from 'src/types'
 
 type ReturnValue = {
+  user: UserInfo | undefined
   login: (arg: UserInfo) => Promise<void>
   logout: () => void
+  checkUser: (createdBy: string) => boolean
 }
 
 export const useAuth = (): ReturnValue => {
-  const [userInfo, setUserInfo] = useRecoilState(state)
+  const [user, setUser] = useRecoilState(state)
+  const cookies = parseCookies()
+  useEffect(() => {
+    if (!user && cookies.username && cookies.accessToken) {
+      setUser({
+        username: cookies.username,
+        password: undefined,
+        access_token: cookies.accessToken,
+      })
+    }
+  }, [])
 
   const router = useRouter()
   const { successToast, errorToast } = useToast()
 
   const login = useCallback(
-    async (user: UserInfo) => {
+    async (usr: UserInfo) => {
       try {
-        const res = await axiosInstance.post('auth/login', user)
+        const res = await axiosInstance().post('auth/login', usr)
         const token = res.data.access_token
         if (token) {
-          setUserInfo({
-            ...user,
+          setUser({
+            ...usr,
+            password: undefined,
             access_token: token,
           })
+          setCookie(undefined, 'username', usr.username, {
+            maxAge: 60 * 60 * 24,
+          })
+          setCookie(undefined, 'accessToken', token, {
+            maxAge: 60 * 60 * 24,
+          })
+
           successToast('ログインしました！🚀')
           router.push('/task')
         }
@@ -36,18 +57,35 @@ export const useAuth = (): ReturnValue => {
         errorToast('ログインに失敗しました🥺')
       }
     },
-    [router, errorToast, successToast, setUserInfo]
+    [errorToast, router, setUser, successToast]
   )
 
   const logout = useCallback(() => {
-    if (userInfo) {
-      setUserInfo(null)
+    if (user) {
+      setUser(undefined)
+      destroyCookie(undefined, 'username')
+      destroyCookie(undefined, 'accessToken')
       successToast('ログアウトしました！🔓')
       router.push('/')
     } else {
       errorToast('ログアウトできませんでした🥺')
     }
-  }, [])
+  }, [errorToast, router, setUser, successToast, user])
 
-  return { login, logout }
+  const checkUser = useCallback(
+    (createdBy: string) => {
+      if (!user) {
+        errorToast('ログインしてください🥺')
+        return false
+      } else if (user.username !== createdBy) {
+        errorToast('他の人のタスクは編集できません🥺')
+        return false
+      } else {
+        return true
+      }
+    },
+    [errorToast, user]
+  )
+
+  return { user, login, logout, checkUser }
 }

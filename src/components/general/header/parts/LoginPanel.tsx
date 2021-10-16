@@ -1,13 +1,12 @@
 import { memo } from 'react'
-import { useRecoilValue } from 'recoil'
 
 import { LogoutButton } from './LogoutButton'
 
 import { PrimaryButton } from 'src/components/general/button/PrimaryButton'
-import { userInfo } from 'src/stores'
+import { useAuth } from 'src/hooks/useAuth'
 
 export const LoginPanel: React.VFC = memo(() => {
-  const user = useRecoilValue(userInfo)
+  const { user } = useAuth()
   return (
     <>
       {user ? (

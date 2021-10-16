@@ -1,5 +1,6 @@
 import { SecondaryButton } from '../button/SecondaryButton'
 
+import { useAuth } from 'src/hooks/useAuth'
 import { useTask } from 'src/hooks/useTask'
 import { Task } from 'src/types'
 
@@ -11,7 +12,14 @@ export const DiscardedTask: React.VFC<Props> = (props) => {
   const { task } = props
   const { duration, todo } = task
 
+  const { checkUser } = useAuth()
   const { deleteTask } = useTask()
+
+  const handleDelete = (tsk: Task) => {
+    if (checkUser(tsk.createdBy)) {
+      deleteTask(tsk)
+    }
+  }
   return (
     <div className="relative flex items-center p-4 rounded-lg shadow">
       <span className="w-32">{duration}</span>
@@ -20,7 +28,7 @@ export const DiscardedTask: React.VFC<Props> = (props) => {
       </span>
       <p className="order-2 w-48 truncate">{todo}</p>
       <div className="flex gap-2 order-3 ml-auto">
-        <SecondaryButton onClick={() => deleteTask(task)} color="red">
+        <SecondaryButton onClick={() => handleDelete(task)} color="red">
           消去
         </SecondaryButton>
       </div>

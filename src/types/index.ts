@@ -1,7 +1,7 @@
 export type UserInfo = {
   username: string
-  password: string
-  access_token?: string
+  password: string | undefined
+  access_token: string | undefined
 }
 
 export type PostTask = {
