@@ -26,8 +26,8 @@ export const useTask = (): ReturnValue => {
     async (task: PostTask) => {
       try {
         await axiosInstance(user).post('/v1/uncompleted', task)
-        successToast('タスクの作成に成功しました🚀')
         setData()
+        successToast('タスクの作成に成功しました🚀')
       } catch (err) {
         errorToast('タスクの作成に失敗しました🥺')
       }
@@ -122,8 +122,8 @@ export const useTask = (): ReturnValue => {
       try {
         const targetId = task.id
         await axiosInstance(user).delete(`/v1/discarded/${targetId}`)
-        successToast('消去に成功しました！🗑')
         await setData()
+        successToast('消去に成功しました！')
       } catch (err) {
         errorToast('エラーが発生しました🥺')
       }
