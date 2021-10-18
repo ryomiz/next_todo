@@ -7,7 +7,7 @@ import { useCalendar } from 'src/hooks/useCalendar'
 import { useSubmitHandler } from 'src/hooks/useSubmitHandler'
 
 export const TaskForm: React.VFC = memo(() => {
-  const { date, MyCalendar } = useCalendar()
+  const { date, resetCalendar, MyCalendar } = useCalendar()
 
   const {
     register,
@@ -19,7 +19,7 @@ export const TaskForm: React.VFC = memo(() => {
   const { handleCreate } = useSubmitHandler(reset)
 
   const onSubmit = (data: FormValues) => {
-    handleCreate(data, date)
+    handleCreate(data, date, resetCalendar)
   }
 
   return (
