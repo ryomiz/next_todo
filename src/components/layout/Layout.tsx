@@ -1,3 +1,5 @@
+import { memo } from 'react'
+
 import { Footer } from './Footer'
 import { Header } from './Header'
 
@@ -5,7 +7,7 @@ type Props = {
   children: React.ReactNode
 }
 
-export const Layout: React.FC<Props> = (props) => {
+export const Layout: React.FC<Props> = memo((props) => {
   const { children } = props
 
   return (
@@ -15,4 +17,6 @@ export const Layout: React.FC<Props> = (props) => {
       <Footer />
     </>
   )
-}
+})
+
+Layout.displayName = 'Layout'

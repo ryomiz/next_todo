@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useForm } from 'react-hook-form'
 
 import type { FormValues } from 'src/types'
@@ -6,7 +7,7 @@ import { useCalendar } from 'src/hooks/useCalendar'
 import { useModal } from 'src/hooks/useModal'
 import { useSubmitHandler } from 'src/hooks/useSubmitHandler'
 
-export const UpdateForm: React.VFC = () => {
+export const UpdateForm: React.VFC = memo(() => {
   const {
     register,
     handleSubmit,
@@ -50,4 +51,6 @@ export const UpdateForm: React.VFC = () => {
         )}
       </form>
     )
-}
+})
+
+UpdateForm.displayName = 'UpdateForm'

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import Calendar from 'react-calendar'
 
 import type { Duration } from 'src/types'
@@ -17,7 +17,7 @@ export const useCalendar = (): ReturnValue => {
 
   const resetCalendar = () => setDate(today)
 
-  const MyCalendar = () => {
+  const MyCalendar = memo(() => {
     return (
       <Calendar
         onChange={setDate}
@@ -27,7 +27,9 @@ export const useCalendar = (): ReturnValue => {
         className="mt-8 mx-auto"
       />
     )
-  }
+  })
+
+  MyCalendar.displayName = 'MyCalendar'
 
   return { date, resetCalendar, MyCalendar }
 }

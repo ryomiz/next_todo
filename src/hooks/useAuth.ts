@@ -21,6 +21,7 @@ export const useAuth = (): ReturnValue => {
 
   const [user, setUser] = useRecoilState(userInfo)
   const cookies = parseCookies()
+
   useEffect(() => {
     if (!user && cookies.username && cookies.accessToken) {
       setUser({
