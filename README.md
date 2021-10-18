@@ -1,34 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js × Nest.js Todo アプリ
 
-## Getting Started
+URL: https://next-nest-ryomiz.vercel.app/
 
-First, run the development server:
+## 当アプリの特徴
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+・フロントエンドは TypeScript × Next.js で開発しており、Vercel にホスティングしています。  
+・バックエンドは TypeScript × Nest.js で開発しており、Heroku にホスティングしています。  
+・データベースは PostgreSQL を使用し、Heroku にホスティングしています。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 機能
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- ログイン機能(予め登録したユーザーのみ)
+- データの読み取り、追加、更新、削除の処理
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## ディレクトリ構成
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+hooks - カスタムフック  
+lib - 汎用的な関数  
+pages - ページディレクトリ  
+stores - グローバルステート(for Recoil)  
+styles - グローバル css  
+types - 型定義
 
-## Learn More
+components-general - 汎用的なコンポーネント  
+components-layout - レイアウトに関するコンポーネント  
+components-pages[ページ名]/parts - 各ページに特有のコンポーネントを格納
 
-To learn more about Next.js, take a look at the following resources:
+## ----- 使用した技術 -----
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+エディター: Visual Studio Code  
+開発言語: TypeScript  
+フレームワーク: Next.js(フロントエンド), Nest.js(バックエンド)  
+スタイリング: Tailwind CSS  
+データベース: Postgres  
+静的解析ツール: Eslint, Prettier  
+その他: Docker, API Blueprint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### バックエンドのリポジトリ
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+https://github.com/ryomiz/next_todo_server

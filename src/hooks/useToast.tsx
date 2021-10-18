@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo, useCallback } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 
 type ReturnValue = {
@@ -8,14 +8,15 @@ type ReturnValue = {
 }
 
 export const useToast = (): ReturnValue => {
-  const successToast = (message: string) => {
+  const successToast = useCallback((message: string) => {
     toast.success(message)
-  }
-  const errorToast = (message: string) => {
-    toast.error(message)
-  }
+  }, [])
 
-  const MyToaster: React.VFC = () => {
+  const errorToast = useCallback((message: string) => {
+    toast.error(message)
+  }, [])
+
+  const MyToaster: React.VFC = memo(() => {
     return (
       <Toaster
         toastOptions={{
@@ -23,6 +24,9 @@ export const useToast = (): ReturnValue => {
         }}
       />
     )
-  }
+  })
+
+  MyToaster.displayName = 'MyToaster'
+
   return { successToast, errorToast, MyToaster }
 }

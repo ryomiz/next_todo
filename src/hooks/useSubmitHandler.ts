@@ -1,3 +1,5 @@
+import { useCallback } from 'react'
+
 import { useAuth } from './useAuth'
 import { useCalendar } from './useCalendar'
 import { useModal } from './useModal'
@@ -23,52 +25,58 @@ export const useSubmitHandler = (
   const { resetCalendar } = useCalendar()
   const { errorToast } = useToast()
 
-  const handleCreate = (data: FormValues, date: Duration) => {
-    // ログインしていない場合、エラーのToastを表示
-    // Createのみこの部分でログインの有無を検証する
-    if (!user) {
-      return errorToast('ログインしてください🥺')
-    }
-    // 日付が二つ選択されていない場合、エラーのToastを表示
-    if (date instanceof Date) {
-      return errorToast('期間を設定してください🥺')
-    }
-    // 選択したデータをフォーマットする
-    const duration = formatDate(date)
-
-    const task: PostTask = {
-      duration,
-      todo: data.todo,
-      createdBy: user.username,
-    }
-    createTask(task)
-
-    // カレンダー、Todoのフォームをリセットする
-    reset()
-    resetCalendar()
-  }
-
-  const handleUpdate = (data: FormValues, date: Duration) => {
-    // 日付が二つ選択されていない場合、エラーのToastを表示
-    if (date instanceof Date) {
-      return errorToast('期間を設定してください🥺')
-    }
-    const format = formatDate(date)
-    if (modal.data) {
-      const task: Task = {
-        ...modal.data,
-        todo: data.todo,
-        duration: format,
+  const handleCreate = useCallback(
+    (data: FormValues, date: Duration) => {
+      // ログインしていない場合、エラーのToastを表示
+      // Createのみこの部分でログインの有無を検証する
+      if (!user) {
+        return errorToast('ログインしてください🥺')
       }
+      // 日付が二つ選択されていない場合、エラーのToastを表示
+      if (date instanceof Date) {
+        return errorToast('期間を設定してください🥺')
+      }
+      // 選択したデータをフォーマットする
+      const duration = formatDate(date)
 
-      updateTask(task)
-    }
-    // カレンダー、Todoのフォームをリセットする
-    reset()
-    resetCalendar()
-    // モーダルを閉じる
-    onCloseModal()
-  }
+      const task: PostTask = {
+        duration,
+        todo: data.todo,
+        createdBy: user.username,
+      }
+      createTask(task)
+
+      // カレンダー、Todoのフォームをリセットする
+      reset()
+      resetCalendar()
+    },
+    [createTask, errorToast, reset, resetCalendar, user]
+  )
+
+  const handleUpdate = useCallback(
+    (data: FormValues, date: Duration) => {
+      // 日付が二つ選択されていない場合、エラーのToastを表示
+      if (date instanceof Date) {
+        return errorToast('期間を設定してください🥺')
+      }
+      const format = formatDate(date)
+      if (modal.data) {
+        const task: Task = {
+          ...modal.data,
+          todo: data.todo,
+          duration: format,
+        }
+
+        updateTask(task)
+      }
+      // カレンダー、Todoのフォームをリセットする
+      reset()
+      resetCalendar()
+      // モーダルを閉じる
+      onCloseModal()
+    },
+    [errorToast, modal.data, onCloseModal, reset, resetCalendar, updateTask]
+  )
 
   return { handleCreate, handleUpdate }
 }

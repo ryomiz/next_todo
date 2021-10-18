@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import Modal from 'react-responsive-modal'
 import { useRecoilState } from 'recoil'
 
@@ -35,7 +35,7 @@ export const useModal = (): ReturnType => {
     })
   }
 
-  const UpdateModal: React.FC<Props> = (props) => {
+  const UpdateModal: React.FC<Props> = memo((props) => {
     const { children } = props
     if (!modal.data) {
       return null
@@ -45,7 +45,9 @@ export const useModal = (): ReturnType => {
         {children}
       </Modal>
     )
-  }
+  })
+
+  UpdateModal.displayName = 'UpdateModal'
 
   return { modal, onOpenModal, onCloseModal, UpdateModal }
 }
