@@ -8,19 +8,20 @@ import { useModal } from 'src/hooks/useModal'
 import { useSubmitHandler } from 'src/hooks/useSubmitHandler'
 
 export const UpdateForm: React.VFC = memo(() => {
+  const { date, resetCalendar, MyCalendar } = useCalendar()
+
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm<FormValues>()
-  const { date, MyCalendar } = useCalendar()
   const { handleUpdate } = useSubmitHandler(reset)
 
   const { modal } = useModal()
 
   const onSubmit = (data: FormValues) => {
-    handleUpdate(data, date)
+    handleUpdate(data, date, resetCalendar)
   }
 
   // モーダルの中身がからの場合、nullをreturn

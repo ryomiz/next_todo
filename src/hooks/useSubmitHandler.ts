@@ -1,7 +1,6 @@
 import { useCallback } from 'react'
 
 import { useAuth } from './useAuth'
-import { useCalendar } from './useCalendar'
 import { useModal } from './useModal'
 import { useTask } from './useTask'
 import { useToast } from './useToast'
@@ -12,8 +11,16 @@ import type { Duration, FormValues, PostTask, Task } from 'src/types'
 import { formatDate } from 'src/lib/formatDate'
 
 type ReturnValue = {
-  handleCreate: (data: FormValues, date: Duration) => void
-  handleUpdate: (data: FormValues, date: Duration) => void
+  handleCreate: (
+    data: FormValues,
+    date: Duration,
+    resetCalendar: () => void
+  ) => void
+  handleUpdate: (
+    data: FormValues,
+    date: Duration,
+    resetCalendar: () => void
+  ) => void
 }
 
 export const useSubmitHandler = (
@@ -22,11 +29,10 @@ export const useSubmitHandler = (
   const { user } = useAuth()
   const { createTask, updateTask } = useTask()
   const { modal, onCloseModal } = useModal()
-  const { resetCalendar } = useCalendar()
   const { errorToast } = useToast()
 
   const handleCreate = useCallback(
-    (data: FormValues, date: Duration) => {
+    (data: FormValues, date: Duration, resetCalendar: () => void) => {
       // ログインしていない場合、エラーのToastを表示
       // Createのみこの部分でログインの有無を検証する
       if (!user) {
@@ -50,11 +56,11 @@ export const useSubmitHandler = (
       reset()
       resetCalendar()
     },
-    [createTask, errorToast, reset, resetCalendar, user]
+    [createTask, errorToast, reset, user]
   )
 
   const handleUpdate = useCallback(
-    (data: FormValues, date: Duration) => {
+    (data: FormValues, date: Duration, resetCalendar: () => void) => {
       // 日付が二つ選択されていない場合、エラーのToastを表示
       if (date instanceof Date) {
         return errorToast('期間を設定してください🥺')
@@ -75,7 +81,7 @@ export const useSubmitHandler = (
       // モーダルを閉じる
       onCloseModal()
     },
-    [errorToast, modal.data, onCloseModal, reset, resetCalendar, updateTask]
+    [errorToast, modal.data, onCloseModal, reset, updateTask]
   )
 
   return { handleCreate, handleUpdate }
